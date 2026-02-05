@@ -1,67 +1,70 @@
-import React from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 
-const jobs = [
-  {
-    id: 1,
-    title: "Copywriting",
-    company: "InAmigos Foundation",
-    activelyHiring: true,
-    workFromHome: true,
-    stipend: "₹ 4,000 - 6,000 /month",
-    duration: "2 Weeks",
-    description:
-      "Create original content for social media ads and NGO websites, analyze briefs, and conduct rese...",
-    skills: [
-      "Content Writing",
-      "English Proficiency (Spoken)",
-      "English Proficiency (Written)",
-    ],
-    postedToday: true,
-    earlyApplicant: false,
-  },
-  {
-    id: 2,
-    title: "Blog Writing",
-    company: "InAmigos Foundation",
-    activelyHiring: true,
-    workFromHome: true,
-    stipend: "₹ 2,000 - 3,000 /month",
-    duration: "2 Weeks",
-    description:
-      "Write blog posts reflecting the NGO's values, initiatives, and impact; create stories showcasing ac...",
-    skills: ["English Proficiency (Spoken)"],
-    postedToday: true,
-    earlyApplicant: true,
-  },
-  {
-    id: 3,
-    title: "Social Media Marketing",
-    company: "InAmigos Foundation",
-    activelyHiring: true,
-    workFromHome: true,
-    stipend: "₹ 3,000 - 4,500 /month",
-    duration: "2 Weeks",
-    description:
-      "Engage with followers, manage comments, and moderate social profiles to boost brand awarenes...",
-    skills: [
-      "Social Media Marketing",
-      "Digital Marketing",
-      "English Proficiency (Spoken)",
-      "English Proficiency (Written)",
-      "Instagram Marketing",
-    ],
-    postedToday: true,
-    earlyApplicant: true,
-  },
-];
 
-const AllJobs = () => {
+
+// const jobs = [
+//   {
+//     id: 1,
+//     title: "Copywriting",
+//     company: "InAmigos Foundation",
+//     activelyHiring: true,
+//     workFromHome: true,
+//     stipend: "₹ 4,000 - 6,000 /month",
+//     duration: "2 Weeks",
+//     description:
+//       "Create original content for social media ads and NGO websites, analyze briefs, and conduct rese...",
+//     skills: [
+//       "Content Writing",
+//       "English Proficiency (Spoken)",
+//       "English Proficiency (Written)",
+//     ],
+//     postedToday: true,
+//     earlyApplicant: false,
+//   },
+//   {
+//     id: 2,
+//     title: "Blog Writing",
+//     company: "InAmigos Foundation",
+//     activelyHiring: true,
+//     workFromHome: true,
+//     stipend: "₹ 2,000 - 3,000 /month",
+//     duration: "2 Weeks",
+//     description:
+//       "Write blog posts reflecting the NGO's values, initiatives, and impact; create stories showcasing ac...",
+//     skills: ["English Proficiency (Spoken)"],
+//     postedToday: true,
+//     earlyApplicant: true,
+//   },
+//   {
+//     id: 3,
+//     title: "Social Media Marketing",
+//     company: "InAmigos Foundation",
+//     activelyHiring: true,
+//     workFromHome: false,
+//     stipend: "₹ 3,000 - 4,500 /month",
+//     duration: "2 Weeks",
+//     description:
+//       "Engage with followers, manage comments, and moderate social profiles to boost brand awarenes...",
+//     skills: [
+//       "Social Media Marketing",
+//       "Digital Marketing",
+//       "English Proficiency (Spoken)",
+//       "English Proficiency (Written)",
+//       "Instagram Marketing",
+//     ],
+//     postedToday: true,
+//     earlyApplicant: true,
+//   },
+// ];
+
+const AllJobs = ({jobs}) => {
   return (
     <div className="flex-1">
       <div className="space-y-4">
-        {jobs.map((job) => (
+        {jobs?.map((job) => (
           <div
-            key={job.id}
+            key={job._id}
             className="bg-white rounded-lg shadow-sm p-6 hover:shadow-md transition-shadow"
           >
             <div className="flex justify-between items-start">
@@ -145,7 +148,7 @@ const AllJobs = () => {
                       d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
                     />
                   </svg>
-                  <p className="text-sm text-gray-600">{job.description}</p>
+                  <p className="text-sm text-gray-400">{job.description}</p>
                 </div>
 
                 <div className="flex flex-wrap gap-2 mb-4">
@@ -191,7 +194,7 @@ const AllJobs = () => {
 
               {/* Company Logo */}
               <div className="ml-4">
-                <button className=" active:scale-95 transition-all duration-150 cursor-pointer px-4 py-2 bg-gradient-to-br from-purple-900 via-purple-500 to-purple-900 text-white font-semibold rounded flex items-center justify-center">
+                <button className=" active:scale-95 transition-all duration-150 cursor-pointer px-4 py-2 bg-gradient-to-br from-purple-950 via-purple-700 to-purple-950 text-white text-sm rounded flex items-center justify-center">
                   Apply Now
                 </button>
               </div>

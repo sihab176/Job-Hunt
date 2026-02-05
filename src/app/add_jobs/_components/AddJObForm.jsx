@@ -13,6 +13,8 @@ const AddJObForm = () => {
     skills: "",
     postedToday: false,
     earlyApplicant: false,
+    location: "",
+    email: "",
   });
 
   const handleChange = (e) => {
@@ -23,14 +25,39 @@ const AddJObForm = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const finalData = {
       ...formData,
       skills: formData.skills.split(",").map((skill) => skill.trim()),
     };
-    console.log("Form Submitted:", finalData);
-    alert("Data logged in console!");
+    // console.log("Form Submitted:", finalData);
+
+    const res = await fetch("/api/jobs", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(finalData),
+    });
+    if (res.ok) {
+      console.log("Job posted successfully");
+      alert("Job posted successfully");
+      setFormData({
+        title: "",
+        company: "",
+        activelyHiring: false,
+        workFromHome: false,
+        stipend: "",
+        duration: "",
+        description: "",
+        skills: "",
+        postedToday: false,
+        earlyApplicant: false,
+        location: "",
+        email: "",
+      });
+    }
   };
 
   return (
@@ -85,6 +112,7 @@ const AddJObForm = () => {
               onChange={handleChange}
               className="w-full p-2 border border-gray-400 rounded-md mt-1 focus:ring-2 focus:ring-purple-800 outline-none"
               placeholder="e.g. ₹ 4,000 - 6,000 /month"
+              required
             />
           </div>
           <div>
@@ -98,6 +126,38 @@ const AddJObForm = () => {
               onChange={handleChange}
               className="w-full p-2 border border-gray-400 rounded-md mt-1 focus:ring-2 focus:ring-purple-800 outline-none"
               placeholder="e.g. 2 Weeks"
+              required
+            />
+          </div>
+        </div>
+        {/* location & email*/}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700">
+              Location
+            </label>
+            <input
+              type="text"
+              name="location"
+              value={formData.location}
+              onChange={handleChange}
+              className="w-full p-2 border border-gray-400 rounded-md mt-1 focus:ring-2 focus:ring-purple-800 outline-none"
+              placeholder="Enter location"
+              required
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700">
+              Email
+            </label>
+            <input
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              className="w-full p-2 border border-gray-400 rounded-md mt-1 focus:ring-2 focus:ring-purple-800 outline-none"
+              placeholder="Enter your email"
+              required
             />
           </div>
         </div>
@@ -114,6 +174,7 @@ const AddJObForm = () => {
             rows="3"
             className="w-full p-2 border border-gray-400 rounded-md mt-1 focus:ring-2 focus:ring-purple-800 outline-none"
             placeholder="Describe the role..."
+            required
           ></textarea>
         </div>
 
@@ -129,6 +190,7 @@ const AddJObForm = () => {
             onChange={handleChange}
             className="w-full p-2 border border-gray-400 rounded-md mt-1 focus:ring-2 focus:ring-purple-800 outline-none"
             placeholder="Content Writing, SEO, English"
+            required
           />
         </div>
 
