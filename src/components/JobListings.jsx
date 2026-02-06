@@ -39,11 +39,11 @@ export default function JobListings() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
+    <div className="min-h-screen bg-gray-50/20 px-6 py-16">
       <div className="max-w-7xl mx-auto">
-        <div className="flex gap-6">
+        <div className="flex flex-col md:flex-row gap-6 ">
           {/* Filters Sidebar */}
-          <div className="w-80 shrink-0 sticky top-20">
+          <div className="w-80 shrink-0 md:sticky md:top-20 md:h-fit">
             <div className="bg-white rounded-lg shadow-sm p-6">
               {/* Work From Home */}
               <div className="mb-4">

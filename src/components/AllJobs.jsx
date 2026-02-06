@@ -1,64 +1,26 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import { IoLocationOutline } from "react-icons/io5";
+import SubmitModal from "./SubmitModal";
+import { usePathname } from "next/navigation";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
+const AllJobs = ({ jobs }) => {
+  // const pathname = usePathname();
+  const router = useRouter();
+  const { data: session, status } = useSession();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedJob, setSelectedJob] = useState(null);
 
+  const handleUpdateJob = (job) => {
+    if (!session?.user) {
+      router.push("/login");
+    }
+    setSelectedJob(job);
+    setIsModalOpen(true);
+  };
 
-// const jobs = [
-//   {
-//     id: 1,
-//     title: "Copywriting",
-//     company: "InAmigos Foundation",
-//     activelyHiring: true,
-//     workFromHome: true,
-//     stipend: "₹ 4,000 - 6,000 /month",
-//     duration: "2 Weeks",
-//     description:
-//       "Create original content for social media ads and NGO websites, analyze briefs, and conduct rese...",
-//     skills: [
-//       "Content Writing",
-//       "English Proficiency (Spoken)",
-//       "English Proficiency (Written)",
-//     ],
-//     postedToday: true,
-//     earlyApplicant: false,
-//   },
-//   {
-//     id: 2,
-//     title: "Blog Writing",
-//     company: "InAmigos Foundation",
-//     activelyHiring: true,
-//     workFromHome: true,
-//     stipend: "₹ 2,000 - 3,000 /month",
-//     duration: "2 Weeks",
-//     description:
-//       "Write blog posts reflecting the NGO's values, initiatives, and impact; create stories showcasing ac...",
-//     skills: ["English Proficiency (Spoken)"],
-//     postedToday: true,
-//     earlyApplicant: true,
-//   },
-//   {
-//     id: 3,
-//     title: "Social Media Marketing",
-//     company: "InAmigos Foundation",
-//     activelyHiring: true,
-//     workFromHome: false,
-//     stipend: "₹ 3,000 - 4,500 /month",
-//     duration: "2 Weeks",
-//     description:
-//       "Engage with followers, manage comments, and moderate social profiles to boost brand awarenes...",
-//     skills: [
-//       "Social Media Marketing",
-//       "Digital Marketing",
-//       "English Proficiency (Spoken)",
-//       "English Proficiency (Written)",
-//       "Instagram Marketing",
-//     ],
-//     postedToday: true,
-//     earlyApplicant: true,
-//   },
-// ];
-
-const AllJobs = ({jobs}) => {
   return (
     <div className="flex-1">
       <div className="space-y-4">
@@ -72,13 +34,22 @@ const AllJobs = ({jobs}) => {
                 <h3 className="text-xl font-semibold text-gray-900 mb-2">
                   {job.title}
                 </h3>
-                <div className="flex items-center gap-2 mb-4">
+                <div className="flex items-center gap-2 mb-1">
                   <span className="text-gray-600 text-sm">{job.company}</span>
                   {job.activelyHiring && (
                     <span className="px-2 py-1 bg-blue-50 text-blue-600 text-xs font-medium rounded border border-blue-200">
                       Actively hiring
                     </span>
                   )}
+                </div>
+
+                <div>
+                  <p className="text-sm text-gray-600 mb-3 flex items-center gap-2 ">
+                    <span>
+                      <IoLocationOutline size={17} />
+                    </span>{" "}
+                    {job.location}
+                  </p>
                 </div>
 
                 <div className="flex items-center gap-4 text-sm text-gray-600 mb-4">
@@ -192,15 +163,60 @@ const AllJobs = ({jobs}) => {
                 </div>
               </div>
 
-              {/* Company Logo */}
+              {/* apply button */}
               <div className="ml-4">
-                <button className=" active:scale-95 transition-all duration-150 cursor-pointer px-4 py-2 bg-gradient-to-br from-purple-950 via-purple-700 to-purple-950 text-white text-sm rounded flex items-center justify-center">
+                <button
+                  // onClick={() => {
+                  //   setSelectedJob(job);
+                  //   setIsModalOpen(true);
+                  // }}
+                  onClick={() => handleUpdateJob(job)}
+                  className=" active:scale-95 transition-all duration-150 cursor-pointer px-4 py-2 bg-gradient-to-br from-purple-950 via-purple-700 to-purple-950 text-white text-sm rounded flex items-center justify-center"
+                >
                   Apply Now
                 </button>
               </div>
             </div>
           </div>
         ))}
+
+        {/* Modal */}
+        <SubmitModal
+          isModalOpen={isModalOpen}
+          setIsModalOpen={() => setIsModalOpen(false)}
+          selectedJob={selectedJob}
+        />
+        {/* {isModalOpen && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+            <div className="bg-white rounded-lg w-full max-w-md p-6">
+              <h2 className="text-lg font-semibold mb-2">
+                Apply for {selectedJob?.title}
+              </h2>
+              <p className="text-sm text-gray-600 mb-4">
+                Company: {selectedJob?.company}
+              </p>
+
+              <div className="flex justify-end gap-3">
+                <button
+                  onClick={() => setIsModalOpen(false)}
+                  className="px-4 py-2 rounded border text-gray-600 hover:bg-gray-100"
+                >
+                  Cancel
+                </button>
+
+                <button
+                  onClick={() => {
+                    // apply logic ekhane hobe
+                    setIsModalOpen(false);
+                  }}
+                  className="px-4 py-2 rounded bg-purple-700 text-white hover:bg-purple-800"
+                >
+                  Confirm Apply
+                </button>
+              </div>
+            </div>
+          </div>
+        )} */}
       </div>
     </div>
   );
