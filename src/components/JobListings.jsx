@@ -24,7 +24,7 @@ export default function JobListings() {
 
       const res = await fetch("/api/jobs?" + params.toString());
       const data = await res.json();
-      console.log("data all", data);
+      // console.log("data all", data);
       setJobs(data);
     };
     getFunc();

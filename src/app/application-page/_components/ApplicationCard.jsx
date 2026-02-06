@@ -5,13 +5,11 @@ import { RiMoneyDollarCircleLine } from "react-icons/ri";
 import { FaPhoneAlt } from "react-icons/fa";
 import { ImFileText2 } from "react-icons/im";
 import ApplicationShedule from "./ApplicationShedule";
+import Swal from "sweetalert2";
 
-const ApplicationCard = ({ application }) => {
+const ApplicationCard = ({ application, pageLoad, setPageLoad }) => {
   const [status, setStatus] = useState("Pending");
-
-
-
-
+  const [showSchedule, setShowSchedule] = useState(false);
 
   const getStatusColor = (currentStatus) => {
     switch (currentStatus) {
@@ -24,6 +22,31 @@ const ApplicationCard = ({ application }) => {
     }
   };
 
+  const handleDelete = async (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const res = await fetch(`/api/application/${id}`, {
+          method: "DELETE",
+        });
+        setPageLoad(!pageLoad);
+        console.log("id deleted", id);
+        Swal.fire({
+          title: "Deleted!",
+          text: "Your file has been deleted.",
+          icon: "success",
+        });
+      }
+    });
+  };
+  // console.log("application-------------------->", application);
   return (
     <div className="max-w-4xl mx-auto bg-white shadow-md border border-gray-200 rounded-xl p-6 mb-6">
       <div className="flex flex-col md:flex-row justify-between gap-4">
@@ -88,7 +111,10 @@ const ApplicationCard = ({ application }) => {
             <option value="Rejected">Rejected</option>
           </select>
 
-          <button className="block w-full mt-2 text-sm px-4 py-2 bg-red-600 text-white rounded">
+          <button
+            onClick={() => handleDelete(application._id)}
+            className="block w-full mt-2 text-sm px-4 py-2 bg-red-600 text-white rounded"
+          >
             DELETE
           </button>
         </div>
@@ -103,9 +129,20 @@ const ApplicationCard = ({ application }) => {
           {application.coverLetter}
         </p>
       </div>
+      <div>
+        <button
+          onClick={() => setShowSchedule(!showSchedule)}
+          className="block w-full mt-3 text-sm px-4 py-2 bg-gradient-to-r from-purple-700 to-pink-800 text-white rounded cursor-pointer"
+        >
+          GIVE FEEDBACK & SCHEDULE INTERVIEW
+        </button>
+      </div>
 
       {/*  */}
-      <ApplicationShedule application={application}/>
+      <ApplicationShedule
+        application={application}
+        showSchedule={showSchedule}
+      />
     </div>
   );
 };

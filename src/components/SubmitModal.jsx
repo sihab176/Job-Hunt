@@ -35,19 +35,19 @@ const SubmitModal = ({ isModalOpen, setIsModalOpen, selectedJob }) => {
     formData.email = session?.user?.email;
     formData.status = "Pending";
 
-    console.log("formData",formData);
+    // console.log("formData",formData);
 
-    // const res = await fetch("/api/application", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify(formData),
-    // });
-    // const data = await res.json();
-    // console.log("Application Submitted:", data);
+    const res = await fetch("/api/application", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    });
+    const data = await res.json();
+    console.log("Application Submitted:", data);
 
-    // alert("Application Sent Successfully!");
+    alert("Application Sent Successfully!");
     setIsModalOpen(false);
   };
 

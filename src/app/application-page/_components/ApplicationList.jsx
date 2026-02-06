@@ -4,6 +4,7 @@ import ApplicationCard from './ApplicationCard'
 
 
 const ApplicationList = () => {
+    const [pageLoad,setPageLoad] = useState(false)
     const [applications, setApplications] = useState([])
     useEffect(() => {
         const fetchApplications = async () => {
@@ -12,14 +13,14 @@ const ApplicationList = () => {
             setApplications(data)
         }
         fetchApplications()
-    }, [])
+    }, [pageLoad])
     console.log("applicaton List",applications)
 
 
   return (
       <div>
           {applications.map((application) => (
-              <ApplicationCard key={application._id} application={application} />
+              <ApplicationCard key={application._id} application={application} pageLoad={pageLoad} setPageLoad={setPageLoad} />
           ))}
     </div>
   )
